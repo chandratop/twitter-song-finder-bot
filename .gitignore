@@ -3,3 +3,4 @@
 *.vscode
 *.DS_Store
 *__pycache__
+last_seen_id.txt
