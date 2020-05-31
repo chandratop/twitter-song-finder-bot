@@ -1,3 +1,0 @@
-[submodule "acrcloud_sdk_python"]
-	path = acrcloud_sdk_python
-	url = https://github.com/acrcloud/acrcloud_sdk_python.git
