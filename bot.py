@@ -135,7 +135,7 @@ def main():
   load_dotenv()
 
   # create last_seen_id.txt file if not exists
-  if (!os.path.exists("last_seen_id.txt")):
+  if os.path.exists("last_seen_id.txt") == False:
     open("last_seen_id.txt", "w+").close()
 
   # Store all API keys in variables
