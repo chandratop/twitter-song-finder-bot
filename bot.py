@@ -136,7 +136,9 @@ def main():
 
   # create last_seen_id.txt file if not exists
   if os.path.exists("last_seen_id.txt") == False:
-    open("last_seen_id.txt", "w+").close()
+    #! on crash please put last tweet id from heroku
+    #! need to be fixed
+    open("last_seen_id.txt", "w+").write("1267352049244499968").close()
 
   # Store all API keys in variables
   TWITTER_CONSUMER_KEY = os.getenv('TWITTER_CONSUMER_KEY')
