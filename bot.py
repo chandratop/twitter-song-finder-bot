@@ -134,6 +134,10 @@ def main():
   # Load all environment variables from the .env file
   load_dotenv()
 
+  # create last_seen_id.txt file if not exists
+  if (!os.path.exists("last_seen_id.txt")):
+    open("last_seen_id.txt", "w+").close()
+
   # Store all API keys in variables
   TWITTER_CONSUMER_KEY = os.getenv('TWITTER_CONSUMER_KEY')
   TWITTER_CONSUMER_SECRET = os.getenv('TWITTER_CONSUMER_SECRET')
