@@ -40,26 +40,27 @@ def video_song_finder():
   result = eval(acr.recognize_by_file('video.mp4', 0))
 
   if result['status']['msg'] == 'Success':
-    print("success")
     # Recognized the song
-    metadata = result['metadata']
+    print("success")
 
     # extract the metadata/details
-    best_find = metadata['music'][0]
+    metadata = result['metadata']
+    all_finds = metadata['music']
+    best_find = all_finds[0]
     title = best_find['title']
     
     artist = best_find['artists'][0]['name']
     # if more than artist then we need to append
     if len(best_find['artists']) > 1:
       for artist in range(1, len(best_find['artists'])):
-        artists += ", " + artist['name']
-    
-    # plug YouTube link if exists
-    # youtube = ""
-    # if 'youtube' in best_find['external_metadata']:
-    #   youtube = 'https://www.youtube.com/watch?v=' + best_find['external_metadata']['youtube']['vid']
+        artist += ", " + artist['name']
+
+    # get youtube video link if possible
+    youtube = ""
     try:
-      youtube = 'https://www.youtube.com/watch?v=' + best_find['external_metadata']['youtube']['vid']
+      for listing in all_finds:
+        if 'youtube' in listing['external_metadata']:
+          youtube = 'https://www.youtube.com/watch?v=' + listing['external_metadata']['youtube']['vid']
     except:
       youtube = ""
 
@@ -73,9 +74,9 @@ def video_song_finder():
       tweet += f"Youtube: {youtube}"    
   
   else:
-    print("Failure")
     # Failed to recognize
-    tweet = "It seems that we can't recognize this :("
+    print("Failure")
+    tweet = "Cannot recognize this song :("
 
   # return tweet
   return tweet
@@ -83,11 +84,12 @@ def video_song_finder():
 
 def response(api):
   print("in response")
+
   # retrieve last seen id
   last_seen_id = get_last_seen_id()
 
   # get all the mentions after the last seen tweet
-  mentions_list = api.mentions_timeline(last_seen_id, tweet_mode='extended')
+  mentions_list = api.mentions_timeline(since_id=last_seen_id, tweet_mode='extended')
 
   # loop through all mentions (oldest first)
   for mention in reversed(mentions_list):
@@ -114,9 +116,7 @@ def response(api):
           break
       print(video_link)
     except:
-      print("exception no video")
-      tweet = f"@{mention.user.screen_name}, you sure there's a video here?"
-      api.update_status(tweet, mention.id)
+      print("exception no video") #? probably another mention as reply/thanks
       continue
 
     # save the video for use
@@ -138,8 +138,9 @@ def main():
   if os.path.exists("last_seen_id.txt") == False:
     #! on crash please put last tweet id from heroku
     #! need to be fixed
+    #? or during maintenence put it manually before deploying again
     temporary = open("last_seen_id.txt", "w+")
-    temporary.write("1267352049244499968")
+    temporary.write("1267382918214643713")
     temporary.close()
 
   # Store all API keys in variables
