@@ -64,6 +64,15 @@ def video_song_finder():
     except:
       youtube = ""
 
+    # get spotify link if possible
+    spotify = ""
+    try:
+      for listing in all_finds:
+        if 'spotify' in listing['external_metadata']:
+          spotify = 'https://open.spotify.com/track/' + listing['external_metadata']['spotify']['track']['id']
+    except:
+      spotify = ""
+
     # create tweet
     tweet = f"Yay, we found it!\nTitle: {title}\n"
     if len(best_find['artists']) > 1:
@@ -71,7 +80,9 @@ def video_song_finder():
     else:
       tweet += f"Artist: {artist}\n"
     if youtube != "":
-      tweet += f"Youtube: {youtube}"    
+      tweet += f"Youtube: {youtube}\n"
+    if spotify != "":
+      tweet += f"Spotify: {spotify}"    
   
   else:
     # Failed to recognize
@@ -140,7 +151,7 @@ def main():
     #! need to be fixed
     #? or during maintenence put it manually before deploying again
     temporary = open("last_seen_id.txt", "w+")
-    temporary.write("1267382918214643713")
+    temporary.write("1267607955807113217")
     temporary.close()
 
   # Store all API keys in variables
