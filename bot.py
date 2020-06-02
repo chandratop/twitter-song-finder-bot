@@ -52,8 +52,8 @@ def video_song_finder():
     artist = best_find['artists'][0]['name']
     # if more than artist then we need to append
     if len(best_find['artists']) > 1:
-      for artist in range(1, len(best_find['artists'])):
-        artist += ", " + artist['name']
+      for index in range(1, len(best_find['artists'])):
+        artist += ", " + best_find['artists'][index]['name']
 
     # get youtube video link if possible
     youtube = ""
@@ -76,7 +76,7 @@ def video_song_finder():
     # create tweet
     tweet = f"Yay, we found it!\nTitle: {title}\n"
     if len(best_find['artists']) > 1:
-      tweet += f"Artists: {artists}\n"
+      tweet += f"Artists: {artist}\n"
     else:
       tweet += f"Artist: {artist}\n"
     if youtube != "":
@@ -151,7 +151,7 @@ def main():
     #! need to be fixed
     #? or during maintenence put it manually before deploying again
     temporary = open("last_seen_id.txt", "w+")
-    temporary.write("1267607955807113217")
+    temporary.write("1267749429617897473")
     temporary.close()
 
   # Store all API keys in variables
