@@ -151,7 +151,7 @@ def main():
     #! need to be fixed
     #? or during maintenence put it manually before deploying again
     temporary = open("last_seen_id.txt", "w+")
-    temporary.write("1267749429617897473")
+    temporary.write("1269995043655503874")
     temporary.close()
 
   # Store all API keys in variables
